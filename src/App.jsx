@@ -2,22 +2,75 @@ import { useEffect, useState } from 'react'
 import { ArrowIcon, ProjectCard, Section, SocialLink } from './components.jsx'
 import { experience, projects, skillGroups } from './data.js'
 
-const navItems = ['About', 'Projects', 'Skills', 'Experience', 'Contact']
+const navGroups = {
+  left: [
+    { label: 'About', href: '#about', section: 'about' },
+    { label: 'Resume', href: '#experience', section: 'experience' },
+  ],
+  right: [
+    { label: 'Projects', href: '#projects', section: 'projects' },
+    { label: 'Contact', href: '#contact', section: 'contact' },
+  ],
+}
 
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [activeSection, setActiveSection] = useState('')
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 24)
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
+    const hero = document.querySelector('#home')
+    if (!hero) return undefined
+
+    const heroObserver = new IntersectionObserver(
+      ([entry]) => setScrolled(!entry.isIntersecting),
+      { rootMargin: '-90px 0px 0px 0px', threshold: 0 },
+    )
+
+    heroObserver.observe(hero)
+    return () => heroObserver.disconnect()
   }, [])
+
+  useEffect(() => {
+    const sectionIds = ['about', 'projects', 'skills', 'experience', 'contact']
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        const visibleSection = entries.find((entry) => entry.isIntersecting)
+        if (visibleSection) setActiveSection(visibleSection.target.id)
+      },
+      { rootMargin: '-20% 0px -65% 0px' },
+    )
+
+    sectionIds.forEach((id) => {
+      const section = document.getElementById(id)
+      if (section) sectionObserver.observe(section)
+    })
+
+    return () => sectionObserver.disconnect()
+  }, [])
+
+  const renderLink = ({ label, href, section }) => (
+    <a
+      key={label}
+      href={href}
+      aria-current={activeSection === section ? 'location' : undefined}
+      onClick={() => setMenuOpen(false)}
+    >
+      {label}
+    </a>
+  )
 
   return (
     <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
-      <a className="logo" href="#home" aria-label="Go to home">R<span>.</span></a>
+      <nav className="nav-group nav-group--left" aria-label="Primary navigation">
+        {navGroups.left.map(renderLink)}
+      </nav>
+
+      <a className="nav-identity" href="#home" aria-label="Raneem Abuhasan, Software Engineer — back to home">
+        <span>Raneem Abuhasan</span>
+        <small>Software Engineer</small>
+      </a>
+
       <button
         className="menu-button"
         type="button"
@@ -28,10 +81,13 @@ function Navbar() {
         <span /> <span />
         <span className="sr-only">Toggle navigation</span>
       </button>
-      <nav id="main-navigation" className={menuOpen ? 'nav-open' : ''} aria-label="Main navigation">
-        {navItems.map((item) => (
-          <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)}>{item}</a>
-        ))}
+
+      <nav className="nav-group nav-group--right" aria-label="Secondary navigation">
+        {navGroups.right.map(renderLink)}
+      </nav>
+
+      <nav id="main-navigation" className={`mobile-navigation ${menuOpen ? 'nav-open' : ''}`} aria-label="Mobile navigation">
+        {[...navGroups.left, ...navGroups.right].map(renderLink)}
       </nav>
     </header>
   )
