@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ArrowIcon, ProjectCard, Section, SocialLink } from './components.jsx'
 import { experience, projects, skillGroups } from './data.js'
+import oliveBranch from './assets/images/palestinian-olive-branch.png'
 
 const navGroups = {
   left: [
@@ -23,8 +24,14 @@ function Navbar() {
     if (!hero) return undefined
 
     const heroObserver = new IntersectionObserver(
-      ([entry]) => setScrolled(!entry.isIntersecting),
-      { rootMargin: '-90px 0px 0px 0px', threshold: 0 },
+      ([entry]) => {
+        setScrolled(!entry.isIntersecting)
+
+        if (entry.isIntersecting) {
+          setActiveSection('')
+        }
+      },
+      { rootMargin: '-80px 0px 0px 0px', threshold: 0 },
     )
 
     heroObserver.observe(hero)
@@ -92,18 +99,15 @@ function Navbar() {
     </header>
   )
 }
-
+// This is the default deskstop appearance of the hero section. The mobile version is handled in the CSS.
 function Hero() {
   return (
     <section className="hero" id="home">
-      <div className="hero-orbit hero-orbit--one" aria-hidden="true" />
-      <div className="hero-orbit hero-orbit--two" aria-hidden="true" />
+      <img className="hero-olive-branch" src={oliveBranch} alt="" aria-hidden="true" />
       <div className="hero-content">
         <p className="hero-kicker">Software engineer · creative problem solver</p>
         <h1>Welcome <em className="hero-welcome-ar" lang="ar" dir="rtl">مرحباً</em></h1>
-        <p className="hero-intro">
-          I’m Raneem, a software engineering student who enjoys turning complex ideas into useful, human-centered products.
-        </p>
+        <h2 className="hero-subtitle">I'm Raneem Abuhasan</h2>
         <div className="hero-actions">
           <a className="button button--primary" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
           <a className="button button--ghost" href="#contact">Let’s connect <ArrowIcon /></a>
