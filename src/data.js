@@ -1,6 +1,10 @@
+import weslLogo from './assets/images/resume/wesl-logo.png'
+import umassBostonLogo from './assets/images/resume/umass-boston-logo.png'
+import westonHighSchoolLogo from './assets/images/resume/weston-high-school-logo.png'
+
 export const projects = [
   {
-    number: '01',
+    
     title: 'Intelligent Study Companion',
     description: 'A focused learning platform that turns complex material into personalized study sessions and useful progress insights.',
     tags: ['React', 'Node.js', 'OpenAI API'],
@@ -8,7 +12,7 @@ export const projects = [
     links: { demo: '#', code: '#' },
   },
   {
-    number: '02',
+   
     title: 'Community Resource Map',
     description: 'An accessible, location-aware experience helping people discover verified community services when they need them.',
     tags: ['JavaScript', 'Mapbox', 'Firebase'],
@@ -16,7 +20,7 @@ export const projects = [
     links: { demo: '#', code: '#' },
   },
   {
-    number: '03',
+   
     title: 'Research Data Explorer',
     description: 'An interactive visualization tool that makes large research datasets easier to explore, compare, and communicate.',
     tags: ['Python', 'React', 'D3.js'],
@@ -26,28 +30,76 @@ export const projects = [
 ]
 
 export const skillGroups = [
-  { title: 'Languages', skills: ['JavaScript', 'Python', 'Java', 'C++', 'SQL'] },
-  { title: 'Web & UI', skills: ['React', 'HTML', 'CSS', 'Node.js', 'REST APIs'] },
-  { title: 'Tools', skills: ['Git', 'GitHub', 'Figma', 'VS Code', 'Postman'] },
+  { title: 'Languages', skills: ['Java','JavaScript', 'Python', 'C++', 'SQL', 'Racket'] },
+  { title: 'Web & UI', skills: ['React', 'HTML', 'CSS', 'Node.js', 'REST APIs', 'WebGL', 'WebGPU'] },
+  { title: 'Tools', skills: ['Git', 'GitHub', 'VS Code', 'Codex', 'Cursor'] },
 ]
 
-export const experience = [
+export const resumeSections = [
   {
-    period: '2025 — Present',
-    role: 'Undergraduate Research Assistant',
-    organization: 'University Research Lab',
-    description: 'Investigating human-centered computing questions, building experimental tools, and translating findings into clear technical insights.',
+    category: 'Projects',
+    entries: [
+      {
+        period: 'January 2026 — Present',
+        role: 'Sip & Swoon',
+        description: 'A platform for coffee lovers to discover cafés and share reviews.',
+        details:  [' Developed a full-stack café discovery and review application with React, Express, PostgreSQL, and Supabase Auth.',
+          'Integrated Google Places API to provide location-based café results while protecting API credentials and reducing repeated requests through caching.',
+          'Designed an 8-table relational PostgreSQL tables database and connected it to 20 API endpoints supporting café and drink data, reviews, and user preferences.'
+          
+        ],
+      },
+      {
+        period: 'April 2026 — May 2026',
+        role: 'Green Thumb',
+        description: 'Sustainable E-commerce Web Platform.',
+        details:  [' Led an agile team of 6 engineers and designers to develop a responsive e-commerce platform for plants and sustainable products based on client requirements.',
+          'Designed interactive UI elements using HTML/CSS and JavaScript, including responsive buttons and hover effects for a randomized plant discovery feature.'
+          
+        ],
+      }
+    ],
   },
   {
-    period: 'Summer 2025',
-    role: 'Software Engineering Intern',
-    organization: 'Company Name',
-    description: 'Collaborated with engineers to develop and test product features while contributing to a thoughtful, iterative development process.',
+    category: 'Work Experience',
+    entries: [
+      {
+        period: 'January 2025 — May 2025',
+        role: 'Undergraduate Researcher',
+        organization: 'Wind Energy Systems Lab',
+        affiliation: 'Boston, MA',
+        logo: weslLogo,
+        logoInset: '13%',
+        details: [
+          'Collected and analyzed water-depth and turbine-location data across 14+ offshore wind farms, using Python, NumPy, SciPy, and Matplotlib.',
+          'Developed water-depth maps and visualizations to compare turbine locations, ocean depth, and offshore site conditions',
+          'Modeled offshore wind-farm layouts using PyWake and TopFarm to evaluate wake effects and improve annaul energy production (AEP).',
+        ],
+      },
+    ],
   },
   {
-    period: '2024 — Present',
-    role: 'Technical Project Lead',
-    organization: 'Student Organization',
-    description: 'Led a small team from early product decisions through implementation, balancing technical constraints with the needs of real users.',
+    category: 'Education',
+    entries: [
+      {
+        period: 'Expected Spring 2027',
+        role: 'B.S. Computer Science',
+        organization: 'University of Massachusetts Boston',
+        affiliation: 'Boston, MA',
+        logo: umassBostonLogo,
+        logoInset: '12%',
+        details: ['GPA: 3.6 / 4.0'],
+      },
+      {
+        period: '2018 — 2022',
+        role: 'High School Diploma',
+        organization: 'Weston High School',
+        affiliation: 'Weston, MA',
+        logo: westonHighSchoolLogo,
+        logoInset: '12%',
+        details: [],
+      },
+    ],
   },
 ]
+

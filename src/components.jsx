@@ -4,13 +4,16 @@ export function ArrowIcon() {
   return <span aria-hidden="true">↗</span>
 }
 
-export function Section({ id, eyebrow, title, children, className = '' }) {
+export function Section({ id, sectionTitle, title, headingMedia = null, children, className = '' }) {
   const { ref, isVisible } = useInView()
   return (
     <section id={id} ref={ref} className={`section reveal ${isVisible ? 'is-visible' : ''} ${className}`}>
-      <div className="section-heading">
-        <p className="eyebrow">{eyebrow}</p>
-        <h2>{title}</h2>
+      <div className={`section-heading ${title || headingMedia ? '' : 'section-heading--compact'}`}>
+        <div className="section-marker">
+          <h2 className="section-label">{sectionTitle}</h2>
+          {headingMedia}
+        </div>
+        {title && <h2>{title}</h2>}
       </div>
       {children}
     </section>

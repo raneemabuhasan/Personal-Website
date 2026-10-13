@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
 import { ArrowIcon, ProjectCard, Section, SocialLink } from './components.jsx'
-import { experience, projects, skillGroups } from './data.js'
+import { projects, resumeSections, skillGroups } from './data.js'
 import oliveBranch from './assets/images/palestinian-olive-branch.png'
+import aboutPortrait from './assets/images/about-portrait.jpg'
 
 const navGroups = {
   left: [
@@ -105,15 +106,18 @@ function Hero() {
     <section className="hero" id="home">
       <img className="hero-olive-branch" src={oliveBranch} alt="" aria-hidden="true" />
       <div className="hero-content">
-        <p className="hero-kicker">Software engineer · creative problem solver</p>
-        <h1>Welcome <em className="hero-welcome-ar" lang="ar" dir="rtl">مرحباً</em></h1>
-        <h2 className="hero-subtitle">I'm Raneem Abuhasan</h2>
+        <p className="hero-welcome">
+          <span className="hero-welcome-en">Welcome</span>
+          <span className="hero-welcome-ar" lang="ar" dir="rtl">مرحباً</span>
+        </p>
+        <h1>I'm Raneem Abuhasan</h1>
+        <p className="hero-role">Software Engineer</p>
         <div className="hero-actions">
           <a className="button button--primary" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
           <a className="button button--ghost" href="#contact">Let’s connect <ArrowIcon /></a>
         </div>
       </div>
-      <div className="scroll-note" aria-hidden="true"><span /> Scroll to discover</div>
+   { /*  <div className="scroll-note" aria-hidden="true"><span /> Scroll to discover</div> */}
     </section>
   )
 }
@@ -125,29 +129,77 @@ function App() {
       <main>
         <Hero />
 
-        <Section id="about" eyebrow="01 / About" title="Curious by nature. Intentional by design." className="about-section">
+        <Section
+          id="about"
+          sectionTitle="About Me"
+          className="about-section"
+        >
           <div className="about-grid">
-            <p className="about-lead">I’m a software engineering student interested in the place where <em>technology, design, and people</em> meet.</p>
+            <figure className="about-photo-block">
+              <div className="about-photo-frame">
+                <img className="about-photo" src={aboutPortrait} alt="Raneem Abuhasan, smiling and holding an iced coffee" />
+              </div>
+              <figcaption className="about-photo-caption">Coffee in hand, always.</figcaption>
+            </figure>
+            <p className="about-lead">I’m an undergraduate computer science student with a passion for 
+              full-stack product development — building software with <em> purpose </em>, <em> personality </em>, and a place in <em> everday life</em>.  </p>
             <div className="about-copy">
-              <p>I’m drawn to problems that ask for both analytical thinking and creative care. Whether I’m building an interface, exploring data, or collaborating with a team, I care about making technology clear, inclusive, and genuinely useful.</p>
-              <p>My Arabic heritage shapes the way I see the world: through multiple perspectives, close attention to context, and a belief that the best solutions begin with listening.</p>
-              <a className="inline-link" href="#experience">More about my journey <span aria-hidden="true">→</span></a>
+            <p> My Arabic heritage has shaped my perspective, inspiring a creativity that stems from experiencing more than one cultural lens. </p>
+              <p> From the Arabic welcome to the olive branch, I've woven little pieces of my heritage throughout this space. 
+                Small details that reflect my roots and the identity I proudly carry into every space I enter. </p>
+              <p> Through research, collaborative technical projects, and independent product development,
+                I’ve gained different perspectives on how ideas take shape and come to life. </p>
+              <a className="inline-link" href="#experience">More about my work <span aria-hidden="true">→</span></a>
             </div>
           </div>
         </Section>
 
-        <Section id="projects" eyebrow="02 / Selected work" title="Projects built with curiosity and care." className="projects-section">
-          <div className="project-grid">
-            {projects.map((project) => <ProjectCard key={project.number} project={project} />)}
+
+        <Section id="experience" sectionTitle="My Resume" className="experience-section">
+          <div className="resume-timeline">
+            {resumeSections.map((section) => (
+              <section id={section.category === 'Projects' ? 'projects' : undefined} className="resume-group" key={section.category} aria-labelledby={`resume-${section.category.toLowerCase().replaceAll(' ', '-')}`}>
+                <h2 id={`resume-${section.category.toLowerCase().replaceAll(' ', '-')}`} className="resume-group-title">{section.category}</h2>
+                <div className="resume-list">
+                  {section.entries.map((item) => (
+                    <article className="timeline-item" key={`${item.organization}-${item.period}`}>
+                      <div className="timeline-summary">
+                        <h3>{item.role}</h3>
+                        <p className="timeline-period">{item.period}</p>
+                        
+                     
+                      </div>
+                      <div className="timeline-marker" aria-hidden="true">
+                        {item.logo && (
+                          <span className="timeline-logo" style={{ '--logo-inset': item.logoInset ?? '12%' }}>
+                            <img src={item.logo} alt="" />
+                          </span>
+                        )}
+                      </div>
+                      <div className="timeline-details">
+                        {item.description && (
+                          <p className="project-description">{item.description}</p>
+                        )}
+                        <h3>{item.organization}</h3>
+                        <p className="timeline-affiliation">{item.affiliation}</p>
+                        {item.details.length > 0 && (
+                          <ul>
+                            {item.details.map((detail) => <li key={detail}>{detail}</li>)}
+                          </ul>
+                        )}
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+            ))}
           </div>
-          <p className="section-note">More experiments and works in progress live on <SocialLink href="https://github.com/">GitHub</SocialLink></p>
         </Section>
 
-        <Section id="skills" eyebrow="03 / Toolkit" title="Technologies I use to bring ideas to life." className="skills-section">
+        <Section id="Skills" sectionTitle="Technical Skills" className="skills-section">
           <div className="skills-grid">
-            {skillGroups.map((group, index) => (
+            {skillGroups.map((group) => (
               <article className="skill-group" key={group.title}>
-                <span className="skill-index">0{index + 1}</span>
                 <h3>{group.title}</h3>
                 <ul>
                   {group.skills.map((skill) => <li key={skill}>{skill}</li>)}
@@ -155,41 +207,46 @@ function App() {
               </article>
             ))}
           </div>
-          <p className="learning-note"><span aria-hidden="true">✦</span> Currently exploring cloud architecture and accessible design systems.</p>
-        </Section>
-
-        <Section id="experience" eyebrow="04 / Experience" title="Learning through building, research, and collaboration." className="experience-section">
-          <div className="timeline">
-            {experience.map((item) => (
-              <article className="timeline-item" key={`${item.period}-${item.role}`}>
-                <p className="timeline-period">{item.period}</p>
-                <div className="timeline-title"><h3>{item.role}</h3><p>{item.organization}</p></div>
-                <p className="timeline-description">{item.description}</p>
-              </article>
-            ))}
+    
+          <div className="resume-actions">
+            <a className="button button--outline" href="/resume.pdf">View my resume </a>
           </div>
-          <a className="button button--outline" href="/resume.pdf">View my résumé <ArrowIcon /></a>
         </Section>
 
-        <Section id="contact" eyebrow="05 / Contact" title="Let’s make something meaningful." className="contact-section">
+        <Section id="contact" sectionTitle="Contact" className="contact-section">
+          
           <div className="contact-grid">
-            <div>
-              <p className="contact-intro">I’m currently looking for software engineering internships and opportunities to learn alongside thoughtful teams.</p>
-              <a className="email-link" href="mailto:hello@example.com">hello@example.com <ArrowIcon /></a>
-            </div>
+            <dl className="contact-details">
+              <div className="contact-detail">
+                <dt>
+                  <svg className="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <path d="m3 6 9 7 9-7" />
+                  </svg>
+                  <span>Email</span>
+                </dt>
+                <dd><a href="mailto:raneem.abuhasan1@gmail.com">raneem.abuhasan1@gmail.com</a></dd>
+              </div>
+              <div className="contact-detail">
+                <dt>
+                  <svg className="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" />
+                    <circle cx="12" cy="10" r="2.5" />
+                  </svg>
+                  <span>Location</span>
+                </dt>
+                <dd>Waltham, MA</dd>
+              </div>
+            </dl>
             <div className="contact-aside">
               <p>Find me elsewhere</p>
-              <SocialLink href="https://github.com/">GitHub</SocialLink>
-              <SocialLink href="https://www.linkedin.com/">LinkedIn</SocialLink>
+              <SocialLink href="https://github.com/raneemabuhasan">GitHub</SocialLink>
+              <SocialLink href="https://www.linkedin.com/in/raneem-abuhasan246/">LinkedIn</SocialLink>
             </div>
           </div>
         </Section>
       </main>
-      <footer>
-        <p>Designed & built with intention.</p>
-        <p>© {new Date().getFullYear()} Raneem</p>
-        <a href="#home">Back to top ↑</a>
-      </footer>
+      
     </>
   )
 }
