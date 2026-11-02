@@ -11,13 +11,31 @@
   display: block;
   z-index: 0;
   color: #b8c99b;
-  opacity: .1;
+  opacity: .14;
   pointer-events: none;
   user-select: none;
   overflow: visible;
 }
 
 .arabic-name-watermark__pen { stroke-dasharray: 1; stroke-dashoffset: 0; }
+
+.nav-identity { position: relative; isolation: isolate; }
+.nav-identity > span, .nav-identity > small { position: relative; z-index: 1; }
+.arabic-name-watermark--nav {
+  width: 190px;
+  max-width: 27vw;
+  height: auto;
+  top: 50%;
+  color: #66714b;
+  opacity: .3;
+}
+.arabic-name-watermark--nav .arabic-name-watermark__pen {
+  animation: none;
+  stroke-dashoffset: 0;
+}
+@media (max-width: 640px) {
+  .arabic-name-watermark--nav { width: 150px; max-width: 46vw; height: auto; }
+}
 
 @media (prefers-reduced-motion: no-preference) {
   .arabic-name-watermark__pen {

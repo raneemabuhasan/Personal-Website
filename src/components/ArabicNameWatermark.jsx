@@ -4,13 +4,14 @@ import './ArabicNameWatermark.css'
 
 // Amiri outlines shaped as a complete RTL phrase, with centerline pen masks.
 // Outlining keeps joins and placement identical without waiting for a webfont.
-export default function ArabicNameWatermark() {
+export default function ArabicNameWatermark({ variant = 'hero' }) {
   const id = useId().replace(/:/g, '')
 
   return (
     <svg
-      className="arabic-name-watermark"
+      className={`arabic-name-watermark${variant === 'nav' ? ' arabic-name-watermark--nav' : ''}`}
       viewBox="-10 -245 910 400"
+      preserveAspectRatio="xMidYMid meet"
       aria-hidden="true"
       focusable="false"
       xmlns="http://www.w3.org/2000/svg"

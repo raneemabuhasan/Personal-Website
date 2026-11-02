@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import ProjectShowcase from './components/ProjectShowcase.jsx'
 import SkillsHeading from './components/SkillsHeading.jsx'
 import ArabicNameWatermark from './components/ArabicNameWatermark.jsx'
+import ResumeModal from './components/ResumeModal.jsx'
 import { Icon } from './components/ui/icon.jsx'
 import { ArrowIcon, ProjectCard, Section, SocialLink } from './components.jsx'
 import { projects, resumeSections, skillGroups } from './data.js'
@@ -86,8 +87,8 @@ function Navbar() {
       </nav>
 
       <a className="nav-identity" href="#home" aria-label="Raneem Abuhasan, Software Engineer — back to home">
-        <span>Raneem Abuhasan</span>
-        <small>Software Engineer</small>
+        <ArabicNameWatermark variant="nav" />
+        <span className="nav-name"><span>Raneem</span><span>Abuhasan</span></span>
       </a>
 
       <button
@@ -113,6 +114,7 @@ function Navbar() {
 }
 // This is the default deskstop appearance of the hero section. The mobile version is handled in the CSS.
 function Hero() {
+  const [resumeOpen, setResumeOpen] = useState(false)
   return (
     <section className="hero" id="home">
       <img className="hero-olive-branch" src={oliveBranch} alt="" aria-hidden="true" />
@@ -125,9 +127,13 @@ function Hero() {
         <h1><ArabicNameWatermark /><span>Raneem</span><span>Abuhasan</span></h1>
         <p className="hero-role">Software Engineer</p>
         <div className="hero-actions">
+          <button className="hero-resume-link" type="button" onClick={() => setResumeOpen(true)}>
+            View Resume <Icon name="download" className="hero-work-icon" style={{ color: 'var(--v-olive-ink)' }} feedbackDuration={1.4} feedbackEase="gentle" />
+          </button>
           <a className="button button--primary" href="#projects">Explore my work <Icon name="arrow-down" className="hero-work-icon" style={{ color: 'var(--v-olive-ink)' }} feedbackDuration={0.7} feedbackEase="gentle" /></a>
         </div>
       </div>
+      {resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}
    { /*  <div className="scroll-note" aria-hidden="true"><span /> Scroll to discover</div> */}
     </section>
   )
@@ -224,9 +230,6 @@ function App() {
             ))}
           </div>
     
-          <div className="resume-actions">
-            <a className="button button--outline" href="/resume.pdf">View my resume </a>
-          </div>
         </Section>
 
         <Section id="projects" sectionTitle="My Projects" className="projects-section">

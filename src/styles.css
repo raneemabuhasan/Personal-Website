@@ -62,13 +62,15 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--brown); outline
 }
 .nav-group { display: flex; align-items: center; gap: clamp(24px, 3vw, 48px); }
 .nav-group--right { justify-content: flex-end; }
-.nav-group a { position: relative; font-size: .72rem; text-transform: uppercase; letter-spacing: .14em; }
+.nav-group a { position: relative; font: 500 15px/1.4 var(--sans); text-transform: uppercase; letter-spacing: .025em; }
 .nav-group a::after { content: ''; position: absolute; left: 0; bottom: -7px; width: 100%; height: 1px; background: var(--brown); transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease); }
 .nav-group a:hover::after, .nav-group a[aria-current='location']::after { transform: scaleX(1); transform-origin: left; }
 .nav-group a[aria-current='location'] { color: var(--brown-dark); }
 .nav-identity { justify-self: center; display: flex; flex-direction: column; align-items: center; line-height: 1.15; }
-.nav-identity span { font: 500 1.15rem var(--sans); letter-spacing: -.015em; }
-.nav-identity small { margin-top: 5px; color: var(--brown); font-size: .57rem; font-weight: 600; text-transform: uppercase; letter-spacing: .17em; }
+.nav-identity span { font: 500 19px var(--sans); letter-spacing: -.015em; }
+.nav-identity .nav-name { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+.nav-identity .nav-name > span { font: 500 18px/1.1 var(--sans); }
+.nav-identity small { margin-top: 5px; color: var(--brown); font: 400 10px/1.3 var(--sans); text-transform: none; letter-spacing: .01em; }
 .navbar--scrolled .nav-identity { opacity: 1; transform: none; pointer-events: auto; }
 .mobile-navigation { display: none; }
 .menu-button { display: none; background: none; border: 0; padding: 8px; }
@@ -175,7 +177,11 @@ button:focus-visible, a:focus-visible { outline: 2px solid var(--brown); outline
 .hero a:focus-visible { outline-color: #e1edc4; }
 .about-lead em { color: var(--brown); font-weight: 400; }
 /*The two buttons on my hero section*/
-.hero-actions { display: flex; align-items: center; justify-content: center; gap: 30px; margin-top: 32px; }
+.hero-actions { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 18px; margin-top: 32px; }
+.hero-resume-link { --v-olive-ink: #c5d4a4; display: inline-flex; align-items: center; gap: 10px; padding: 6px 0; color: #c5d4a4; font-size: .85rem; }
+.hero-resume-link:hover { color: #e1edc4; }
+.hero-resume-link { border: 0; background: none; font-family: inherit; cursor: pointer; }
+.hero-resume-link:focus-visible { outline-color: #e1edc4; }
 .button { min-height: 52px; padding: 0 24px; display: inline-flex; align-items: center; justify-content: center; gap: 24px; border: 1px solid var(--ink); font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; transition: transform .3s var(--ease), background .3s, color .3s; }
 .button:hover { transform: translateY(-3px); }
 .button--primary { background: var(--ink); color: var(--paper); }
@@ -420,11 +426,12 @@ footer { min-height: 110px; padding: 0 max(32px, calc((100vw - 1180px) / 2)); ba
   .nav-group { display: none; }
   .nav-identity { justify-self: auto; align-items: flex-start; }
   .nav-identity span { font-size: 1.05rem; }
-  .nav-identity small { font-size: .5rem; margin-top: 4px; }
+  .nav-identity small { font-size: 9px; margin-top: 3px; }
+  .nav-identity .nav-name > span { font-size: 16px; }
   .menu-button { display: block; z-index: 2; cursor: pointer; }
   .mobile-navigation { display: flex; position: fixed; inset: 0; background: var(--cream); flex-direction: column; align-items: center; justify-content: center; gap: 30px; opacity: 0; visibility: hidden; transition: opacity .3s; }
   .mobile-navigation.nav-open { opacity: 1; visibility: visible; }
-  .mobile-navigation a { font: 500 2rem var(--sans); text-transform: none; letter-spacing: 0; }
+  .mobile-navigation a { font: 500 2rem var(--sans); text-transform: uppercase; letter-spacing: .025em; }
   .hero { min-height: 100svh; padding: 72px 0; }
   .hero-olive-branch { top: -20px; right: calc((100vw - var(--page)) / -2); width: 110vw; max-width: 690px; opacity: .25; }
   .hero-welcome { margin-bottom: 14px; }
