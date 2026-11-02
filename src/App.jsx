@@ -1,4 +1,8 @@
 import { useEffect, useState } from 'react'
+import ProjectShowcase from './components/ProjectShowcase.jsx'
+import SkillsHeading from './components/SkillsHeading.jsx'
+import ArabicNameWatermark from './components/ArabicNameWatermark.jsx'
+import { Icon } from './components/ui/icon.jsx'
 import { ArrowIcon, ProjectCard, Section, SocialLink } from './components.jsx'
 import { projects, resumeSections, skillGroups } from './data.js'
 import oliveBranch from './assets/images/palestinian-olive-branch.png'
@@ -21,22 +25,25 @@ function Navbar() {
   const [activeSection, setActiveSection] = useState('')
 
   useEffect(() => {
-    const hero = document.querySelector('#home')
-    if (!hero) return undefined
+    const heroActions = document.querySelector('#home .hero-actions')
+    if (!heroActions) return undefined
 
-    const heroObserver = new IntersectionObserver(
-      ([entry]) => {
-        setScrolled(!entry.isIntersecting)
+    const updateNavigation = () => {
+      const show = heroActions.getBoundingClientRect().bottom <= 0
+      setScrolled(show)
+      if (!show) {
+        setActiveSection('')
+        setMenuOpen(false)
+      }
+    }
 
-        if (entry.isIntersecting) {
-          setActiveSection('')
-        }
-      },
-      { rootMargin: '-80px 0px 0px 0px', threshold: 0 },
-    )
-
-    heroObserver.observe(hero)
-    return () => heroObserver.disconnect()
+    updateNavigation()
+    window.addEventListener('scroll', updateNavigation, { passive: true })
+    window.addEventListener('resize', updateNavigation)
+    return () => {
+      window.removeEventListener('scroll', updateNavigation)
+      window.removeEventListener('resize', updateNavigation)
+    }
   }, [])
 
   useEffect(() => {
@@ -69,7 +76,11 @@ function Navbar() {
   )
 
   return (
-    <header className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}>
+    <header
+      className={`navbar ${scrolled ? 'navbar--scrolled' : ''}`}
+      inert={!scrolled}
+      aria-hidden={!scrolled}
+    >
       <nav className="nav-group nav-group--left" aria-label="Primary navigation">
         {navGroups.left.map(renderLink)}
       </nav>
@@ -107,14 +118,14 @@ function Hero() {
       <img className="hero-olive-branch" src={oliveBranch} alt="" aria-hidden="true" />
       <div className="hero-content">
         <p className="hero-welcome">
-          <span className="hero-welcome-en">Welcome</span>
-          <span className="hero-welcome-ar" lang="ar" dir="rtl">مرحباً</span>
+          <span className="hero-welcome-en">Welcome I’m</span>
+          <span className="hero-welcome-divider" aria-hidden="true">◆</span>
+          <span className="hero-welcome-ar" lang="ar" dir="rtl">مرحباً أنا</span>
         </p>
-        <h1>I'm Raneem Abuhasan</h1>
+        <h1><ArabicNameWatermark /><span>Raneem</span><span>Abuhasan</span></h1>
         <p className="hero-role">Software Engineer</p>
         <div className="hero-actions">
-          <a className="button button--primary" href="#projects">Explore my work <span aria-hidden="true">↓</span></a>
-          <a className="button button--ghost" href="#contact">Let’s connect <ArrowIcon /></a>
+          <a className="button button--primary" href="#projects">Explore my work <Icon name="arrow-down" className="hero-work-icon" style={{ color: 'var(--v-olive-ink)' }} feedbackDuration={0.7} feedbackEase="gentle" /></a>
         </div>
       </div>
    { /*  <div className="scroll-note" aria-hidden="true"><span /> Scroll to discover</div> */}
@@ -133,6 +144,7 @@ function App() {
           id="about"
           sectionTitle="About Me"
           className="about-section"
+          headingInContent
         >
           <div className="about-grid">
             <figure className="about-photo-block">
@@ -141,15 +153,19 @@ function App() {
               </div>
               <figcaption className="about-photo-caption">Coffee in hand, always.</figcaption>
             </figure>
-            <p className="about-lead">I’m an undergraduate computer science student with a passion for 
-              full-stack product development — building software with <em> purpose </em>, <em> personality </em>, and a place in <em> everday life</em>.  </p>
+            <div className="about-story">
+            <div className="section-heading section-heading--compact">
+              <div className="section-marker"><h2 className="section-label">About Me</h2></div>
+            </div>
+            <p className="about-lead">
+              I’m an undergraduate computer science student with a passion for full-stack product development — building software with purpose, personality, and a place in everyday life.
+            </p>
             <div className="about-copy">
-            <p> My Arabic heritage has shaped my perspective, inspiring a creativity that stems from experiencing more than one cultural lens. </p>
-              <p> From the Arabic welcome to the olive branch, I've woven little pieces of my heritage throughout this space. 
-                Small details that reflect my roots and the identity I proudly carry into every space I enter. </p>
-              <p> Through research, collaborative technical projects, and independent product development,
-                I’ve gained different perspectives on how ideas take shape and come to life. </p>
+              <p>
+                From the Arabic welcome to the olive branch, I've woven little pieces of my heritage throughout this space. Small details that reflect my roots and the identity I proudly carry into every space I enter.
+              </p>
               <a className="inline-link" href="#experience">More about my work <span aria-hidden="true">→</span></a>
+            </div>
             </div>
           </div>
         </Section>
@@ -157,8 +173,8 @@ function App() {
 
         <Section id="experience" sectionTitle="My Resume" className="experience-section">
           <div className="resume-timeline">
-            {resumeSections.map((section) => (
-              <section id={section.category === 'Projects' ? 'projects' : undefined} className="resume-group" key={section.category} aria-labelledby={`resume-${section.category.toLowerCase().replaceAll(' ', '-')}`}>
+            {resumeSections.filter((section) => section.category !== 'Projects').map((section) => (
+              <section className="resume-group" key={section.category} aria-labelledby={`resume-${section.category.toLowerCase().replaceAll(' ', '-')}`}>
                 <h2 id={`resume-${section.category.toLowerCase().replaceAll(' ', '-')}`} className="resume-group-title">{section.category}</h2>
                 <div className="resume-list">
                   {section.entries.map((item) => (
@@ -196,7 +212,7 @@ function App() {
           </div>
         </Section>
 
-        <Section id="Skills" sectionTitle="Technical Skills" className="skills-section">
+        <Section id="skills" sectionTitle="Technical Skills" className="skills-section" headingContent={<SkillsHeading />}>
           <div className="skills-grid">
             {skillGroups.map((group) => (
               <article className="skill-group" key={group.title}>
@@ -213,17 +229,20 @@ function App() {
           </div>
         </Section>
 
+        <Section id="projects" sectionTitle="My Projects" className="projects-section">
+          <ProjectShowcase />
+        </Section>
+
         <Section id="contact" sectionTitle="Contact" className="contact-section">
           
           <div className="contact-grid">
             <dl className="contact-details">
               <div className="contact-detail">
                 <dt>
-                  <svg className="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <rect x="3" y="5" width="18" height="14" rx="2" />
-                    <path d="m3 6 9 7 9-7" />
-                  </svg>
-                  <span>Email</span>
+                  <a className="contact-email-label" href="mailto:raneem.abuhasan1@gmail.com">
+                    <Icon name="mail" className="contact-icon" feedbackDuration={0.7} feedbackEase="gentle" />
+                    <span>Email</span>
+                  </a>
                 </dt>
                 <dd><a href="mailto:raneem.abuhasan1@gmail.com">raneem.abuhasan1@gmail.com</a></dd>
               </div>
@@ -240,8 +259,8 @@ function App() {
             </dl>
             <div className="contact-aside">
               <p>Find me elsewhere</p>
-              <SocialLink href="https://github.com/raneemabuhasan">GitHub</SocialLink>
-              <SocialLink href="https://www.linkedin.com/in/raneem-abuhasan246/">LinkedIn</SocialLink>
+              <SocialLink href="https://github.com/raneemabuhasan"><Icon name="github" className="contact-icon" feedbackDuration={0.7} feedbackEase="gentle" />GitHub</SocialLink>
+              <SocialLink href="https://www.linkedin.com/in/raneem-abuhasan246/"><Icon name="linkedin" className="contact-icon" feedbackDuration={1.4} feedbackEase="gentle" />LinkedIn</SocialLink>
             </div>
           </div>
         </Section>

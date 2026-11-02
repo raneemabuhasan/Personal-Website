@@ -4,28 +4,24 @@ import westonHighSchoolLogo from './assets/images/resume/weston-high-school-logo
 
 export const projects = [
   {
-    
-    title: 'Intelligent Study Companion',
-    description: 'A focused learning platform that turns complex material into personalized study sessions and useful progress insights.',
-    tags: ['React', 'Node.js', 'OpenAI API'],
+    id: 'sip-and-swoon',
+    title: 'Sip & Swoon',
+    date: 'January 2026 — Present',
+    description: 'A café discovery and review platform that helps coffee lovers find their next favorite spot.',
+    details: 'Built with React, Express, PostgreSQL, and Supabase Auth, with location-based café results powered by Google Places. Designed an eight-table database and 20 API endpoints for cafés, drinks, reviews, and user preferences, with caching to reduce repeated requests.',
+    tags: ['React', 'Express', 'PostgreSQL', 'Supabase Auth'],
     type: 'Full-stack application',
-    links: { demo: '#', code: '#' },
+    links: { demo: null, code: null },
   },
   {
-   
-    title: 'Community Resource Map',
-    description: 'An accessible, location-aware experience helping people discover verified community services when they need them.',
-    tags: ['JavaScript', 'Mapbox', 'Firebase'],
-    type: 'Civic technology',
-    links: { demo: '#', code: '#' },
-  },
-  {
-   
-    title: 'Research Data Explorer',
-    description: 'An interactive visualization tool that makes large research datasets easier to explore, compare, and communicate.',
-    tags: ['Python', 'React', 'D3.js'],
-    type: 'Data visualization',
-    links: { demo: '#', code: '#' },
+    id: 'green-thumb',
+    title: 'Green Thumb',
+    date: 'April — May 2026',
+    description: 'A sustainable shopping platform for discovering plants and eco-conscious products.',
+    details: 'Led a team of six engineers and designers to build a responsive e-commerce platform around client requirements. Developed interactive interfaces with HTML, CSS, and JavaScript, including a randomized plant discovery feature.',
+    tags: ['HTML', 'CSS', 'JavaScript'],
+    type: 'Team project · E-commerce',
+    links: { demo: null, code: null },
   },
 ]
 

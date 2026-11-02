@@ -1,21 +1,27 @@
-import { useInView } from './hooks/useInView.js'
+import AnimatedContent from './components/AnimatedContent.jsx'
 
 export function ArrowIcon() {
   return <span aria-hidden="true">↗</span>
 }
 
-export function Section({ id, sectionTitle, title, headingMedia = null, children, className = '' }) {
-  const { ref, isVisible } = useInView()
-  return (
-    <section id={id} ref={ref} className={`section reveal ${isVisible ? 'is-visible' : ''} ${className}`}>
-      <div className={`section-heading ${title || headingMedia ? '' : 'section-heading--compact'}`}>
+export function Section({ id, sectionTitle, title, headingMedia = null, children, className = '', headingInContent = false, headingContent = null }) {
+  const content = (
+    <>
+      {!headingInContent && <div className={`section-heading ${title || headingMedia ? '' : 'section-heading--compact'}`}>
         <div className="section-marker">
-          <h2 className="section-label">{sectionTitle}</h2>
+          {headingContent ?? <h2 className="section-label">{sectionTitle}</h2>}
           {headingMedia}
         </div>
         {title && <h2>{title}</h2>}
-      </div>
+      </div>}
       {children}
+    </>
+  )
+  return (
+    <section id={id} className={`section ${className}`}>
+      <AnimatedContent distance={16} duration={0.45} ease="power3.out" stagger={0} threshold={0.1}>
+        {content}
+      </AnimatedContent>
     </section>
   )
 }
@@ -23,7 +29,7 @@ export function Section({ id, sectionTitle, title, headingMedia = null, children
 export function SocialLink({ href, children }) {
   return (
     <a className="text-link" href={href} target="_blank" rel="noreferrer">
-      {children} <ArrowIcon />
+      {children}
     </a>
   )
 }

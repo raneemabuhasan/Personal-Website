@@ -1,0 +1,31 @@
+.hero h1 { position: relative; isolation: isolate; }
+.hero h1 > span { position: relative; z-index: 1; }
+
+.arabic-name-watermark {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scaleY(.94);
+  width: min(118%, calc(100vw - 20px));
+  height: auto;
+  display: block;
+  z-index: 0;
+  color: #b8c99b;
+  opacity: .1;
+  pointer-events: none;
+  user-select: none;
+  overflow: visible;
+}
+
+.arabic-name-watermark__pen { stroke-dasharray: 1; stroke-dashoffset: 0; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .arabic-name-watermark__pen {
+    animation: arabic-name-pen var(--pen-duration) linear var(--pen-delay) both;
+  }
+}
+
+@keyframes arabic-name-pen {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
