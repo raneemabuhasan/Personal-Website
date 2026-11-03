@@ -38,6 +38,11 @@ for(const name of ["menu","globe","link","save","rocket","circle-help"]) {
   extraPaths[name]=extraPaths[name].flatMap(d=>d.match(/[Mm][^M]*/g)??[d]);
 }
 extraPaths.code=["m8 5-7 7 7 7","m16 5 7 7-7 7","m13 3-2 18"];
+// Keep the contact pin available immediately without fetching the full icon pack.
+extraPaths['map-pin'] = [
+  'M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0',
+  'M15 10a3 3 0 1 1-6 0a3 3 0 1 1 6 0',
+];
 const additionalIcons = Object.fromEntries(
   Object.entries(extraPaths).map(([name, paths]) => [name, paths.map(d => ({ tag: "path", attrs: { d }, children: [] }))])
 );

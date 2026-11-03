@@ -364,7 +364,8 @@ const FallingText = ({
       if (rearm) armed = true;
     };
 
-    const onEnter = () => {
+    const onEnter = event => {
+      if (event.pointerType === 'touch') return;
       inside = true;
       if (settingsRef.current.trigger === 'hover') {
         window.clearTimeout(hoverTimer);
@@ -376,10 +377,10 @@ const FallingText = ({
       window.clearTimeout(hoverTimer);
     };
     const onClick = () => {
-      if (['click', 'hover'].includes(settingsRef.current.trigger)) fall();
+      if (settingsRef.current.trigger === 'click') fall();
     };
     const onKeyDown = event => {
-      if (event.key === 'Enter' || event.key === ' ') {
+      if (settingsRef.current.trigger === 'click' && (event.key === 'Enter' || event.key === ' ')) {
         event.preventDefault();
         fall();
       } else if (event.key === 'Escape') restore();
@@ -493,7 +494,8 @@ const FallingText = ({
     });
     resizeObserver.observe(container);
 
-    container.addEventListener('pointerenter', onEnter);
+    block.addEventListener('pointerenter', onEnter);
+    block.addEventListener('pointerleave', onLeave);
     container.addEventListener('pointerleave', onLeave);
     container.addEventListener('click', onClick);
     container.addEventListener('keydown', onKeyDown);
@@ -514,7 +516,8 @@ const FallingText = ({
       cancelled = true;
       observer?.disconnect();
       resizeObserver.disconnect();
-      container.removeEventListener('pointerenter', onEnter);
+      block.removeEventListener('pointerenter', onEnter);
+      block.removeEventListener('pointerleave', onLeave);
       container.removeEventListener('pointerleave', onLeave);
       container.removeEventListener('click', onClick);
       container.removeEventListener('keydown', onKeyDown);
@@ -534,9 +537,9 @@ const FallingText = ({
       ref={containerRef}
       className={`falling-text${wireframes ? ' falling-text--wireframes' : ''} ${className}`.trim()}
       data-trigger={trigger}
-      role={trigger === 'hover' || trigger === 'click' ? 'button' : undefined}
-      tabIndex={trigger === 'hover' || trigger === 'click' ? 0 : undefined}
-      aria-label={trigger === 'hover' || trigger === 'click' ? `${text}: play falling letters` : undefined}
+      role={trigger === 'click' ? 'button' : undefined}
+      tabIndex={trigger === 'click' ? 0 : undefined}
+      aria-label={trigger === 'click' ? `${text}: play falling letters` : undefined}
       data-draggable={draggable ? '' : undefined}
       style={{
         ...(THEMES[theme] ?? THEMES.dark),

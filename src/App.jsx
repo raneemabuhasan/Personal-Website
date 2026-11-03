@@ -12,10 +12,10 @@ import aboutPortrait from './assets/images/about-portrait.jpg'
 const navGroups = {
   left: [
     { label: 'About', href: '#about', section: 'about' },
-    { label: 'Resume', href: '#experience', section: 'experience' },
+    { label: 'Projects', href: '#projects', section: 'projects' },
   ],
   right: [
-    { label: 'Projects', href: '#projects', section: 'projects' },
+    { label: 'Resume', href: '#experience', section: 'experience' },
     { label: 'Contact', href: '#contact', section: 'contact' },
   ],
 }
@@ -170,12 +170,29 @@ function App() {
               <p>
                 From the Arabic welcome to the olive branch, I've woven little pieces of my heritage throughout this space. Small details that reflect my roots and the identity I proudly carry into every space I enter.
               </p>
-              <a className="inline-link" href="#experience">More about my work <span aria-hidden="true">→</span></a>
             </div>
             </div>
           </div>
         </Section>
 
+
+        <Section id="projects" sectionTitle="My Projects" className="projects-section">
+          <ProjectShowcase />
+        </Section>
+
+        <Section id="skills" sectionTitle="Technical Skills" className="skills-section" headingContent={<SkillsHeading />}>
+          <div className="skills-grid">
+            {skillGroups.map((group) => (
+              <article className="skill-group" key={group.title}>
+                <h3>{group.title}</h3>
+                <ul>
+                  {group.skills.map((skill) => <li key={skill}>{skill}</li>)}
+                </ul>
+              </article>
+            ))}
+          </div>
+
+        </Section>
 
         <Section id="experience" sectionTitle="My Resume" className="experience-section">
           <div className="resume-timeline">
@@ -188,8 +205,8 @@ function App() {
                       <div className="timeline-summary">
                         <h3>{item.role}</h3>
                         <p className="timeline-period">{item.period}</p>
-                        
-                     
+
+
                       </div>
                       <div className="timeline-marker" aria-hidden="true">
                         {item.logo && (
@@ -218,57 +235,37 @@ function App() {
           </div>
         </Section>
 
-        <Section id="skills" sectionTitle="Technical Skills" className="skills-section" headingContent={<SkillsHeading />}>
-          <div className="skills-grid">
-            {skillGroups.map((group) => (
-              <article className="skill-group" key={group.title}>
-                <h3>{group.title}</h3>
-                <ul>
-                  {group.skills.map((skill) => <li key={skill}>{skill}</li>)}
-                </ul>
-              </article>
-            ))}
-          </div>
-    
-        </Section>
-
-        <Section id="projects" sectionTitle="My Projects" className="projects-section">
-          <ProjectShowcase />
-        </Section>
-
         <Section id="contact" sectionTitle="Contact" className="contact-section">
-          
+
           <div className="contact-grid">
             <dl className="contact-details">
-              <div className="contact-detail">
-                <dt>
+              <div className="contact-detail contact-detail--email">
+                <dt className="sr-only">Email</dt>
+                <dd>
                   <a className="contact-email-label" href="mailto:raneem.abuhasan1@gmail.com">
                     <Icon name="mail" className="contact-icon" feedbackDuration={0.7} feedbackEase="gentle" />
-                    <span>Email</span>
+                    <span>raneem.abuhasan1@gmail.com</span>
                   </a>
-                </dt>
-                <dd><a href="mailto:raneem.abuhasan1@gmail.com">raneem.abuhasan1@gmail.com</a></dd>
+                </dd>
               </div>
               <div className="contact-detail">
-                <dt>
-                  <svg className="contact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    <path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" />
-                    <circle cx="12" cy="10" r="2.5" />
-                  </svg>
-                  <span>Location</span>
-                </dt>
-                <dd>Waltham, MA</dd>
+                <dt className="sr-only">Location</dt>
+                <dd>
+                  <a className="contact-email-label contact-location-link" href="https://www.google.com/maps/search/?api=1&query=Waltham%2C%20MA" target="_blank" rel="noreferrer">
+                    <Icon name="map-pin" className="contact-icon" feedbackDuration={1.4} feedbackEase="gentle" />
+                    <span>Boston, MA</span>
+                  </a>
+                </dd>
               </div>
             </dl>
             <div className="contact-aside">
-              <p>Find me elsewhere</p>
               <SocialLink href="https://github.com/raneemabuhasan"><Icon name="github" className="contact-icon" feedbackDuration={0.7} feedbackEase="gentle" />GitHub</SocialLink>
               <SocialLink href="https://www.linkedin.com/in/raneem-abuhasan246/"><Icon name="linkedin" className="contact-icon" feedbackDuration={1.4} feedbackEase="gentle" />LinkedIn</SocialLink>
             </div>
           </div>
         </Section>
       </main>
-      
+
     </>
   )
 }

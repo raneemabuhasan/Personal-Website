@@ -1,11 +1,25 @@
 import weslLogo from './assets/images/resume/wesl-logo.png'
 import umassBostonLogo from './assets/images/resume/umass-boston-logo.png'
 import westonHighSchoolLogo from './assets/images/resume/weston-high-school-logo.png'
+import syncLogo from './assets/images/projects/sync-logo.png'
 
 export const projects = [
   {
+    id: 'sync',
+    title: 'Sync',
+    logo: syncLogo,
+    highlights: ['seven-member team', 'Gemini-powered companion', 'People’s Choice Award', '282 votes'],
+    date: 'October 2026 — Present',
+    description: 'An AI-powered iOS menstrual cycle companion with history-adaptive predictions and personalized wellness support.',
+    details: 'Founded Sync and led a seven-member team to build an iOS app with SwiftUI and Firebase, featuring symptom tracking and phase-specific nutrition and movement suggestions. Led development of a Gemini-powered companion through Firebase AI Logic that uses logged cycle and symptom data, with guardrails against unsupported medical advice and fabricated history. Won the People’s Choice Award at the UMass Boston AI Symposium with 282 votes.',
+    tags: ['SwiftUI', 'Firebase', 'Gemini', 'Firebase AI Logic'],
+    type: 'Founder & Team Lead',
+    links: { demo: null, code: null },
+  },
+  {
     id: 'sip-and-swoon',
     title: 'Sip & Swoon',
+    highlights: ['eight-table database', '20 API endpoints'],
     date: 'January 2026 — Present',
     description: 'A café discovery and review platform that helps coffee lovers find their next favorite spot.',
     details: 'Built with React, Express, PostgreSQL, and Supabase Auth, with location-based café results powered by Google Places. Designed an eight-table database and 20 API endpoints for cafés, drinks, reviews, and user preferences, with caching to reduce repeated requests.',
@@ -16,6 +30,7 @@ export const projects = [
   {
     id: 'green-thumb',
     title: 'Green Thumb',
+    highlights: ['team of six engineers and designers', 'randomized plant discovery feature'],
     date: 'April — May 2026',
     description: 'A sustainable shopping platform for discovering plants and eco-conscious products.',
     details: 'Led a team of six engineers and designers to build a responsive e-commerce platform around client requirements. Developed interactive interfaces with HTML, CSS, and JavaScript, including a randomized plant discovery feature.',
