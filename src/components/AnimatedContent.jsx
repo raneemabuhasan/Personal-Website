@@ -9,12 +9,12 @@ const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffec
 // Section reveal using the selected React Bits Animated Content settings.
 export default function AnimatedContent({
   children,
-  distance = 16,
+  distance = 24,
   direction = 'vertical',
-  duration = 0.45,
+  duration = 0.65,
   ease = 'power3.out',
   blur = 0,
-  stagger = 0,
+  stagger = 0.1,
   threshold = 0.1,
 }) {
   const ref = useRef(null)
@@ -25,7 +25,11 @@ export default function AnimatedContent({
 
     const mm = gsap.matchMedia()
     mm.add('(prefers-reduced-motion: no-preference)', () => {
-      const targets = stagger > 0 && el.children.length ? Array.from(el.children) : [el]
+      // Animate layout items individually without moving their grid containers.
+      const groups = '.about-grid, .skills-grid, .resume-timeline, .contact-grid'
+      const targets = stagger > 0 && el.children.length
+        ? Array.from(el.children).flatMap(child => child.matches(groups) ? Array.from(child.children) : [child])
+        : [el]
       const axis = direction === 'horizontal' ? 'x' : 'y'
       const from = { [axis]: distance, opacity: 0 }
       const to = {
@@ -41,12 +45,17 @@ export default function AnimatedContent({
         to.filter = 'blur(0px)'
       }
 
-      const timeline = gsap.timeline({ paused: true }).fromTo(targets, from, to)
-      ScrollTrigger.create({
-        trigger: el,
-        start: `clamp(top ${(1 - threshold) * 100}%)`,
-        once: true,
-        onEnter: () => timeline.play(),
+      targets.forEach((target, index) => {
+        gsap.fromTo(target, from, {
+          ...to,
+          stagger: 0,
+          delay: Math.min(index, 3) * stagger,
+          scrollTrigger: {
+            trigger: target,
+            start: `clamp(top ${(1 - threshold) * 100}%)`,
+            once: true,
+          },
+        })
       })
     }, el)
 

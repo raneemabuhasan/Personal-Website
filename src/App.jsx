@@ -1,12 +1,10 @@
 import { useEffect, useState } from 'react'
 import ProjectShowcase from './components/ProjectShowcase.jsx'
-import SkillsHeading from './components/SkillsHeading.jsx'
 import ArabicNameWatermark from './components/ArabicNameWatermark.jsx'
 import ResumeModal from './components/ResumeModal.jsx'
 import { Icon } from './components/ui/icon.jsx'
 import { ArrowIcon, ProjectCard, Section, SocialLink } from './components.jsx'
 import { projects, resumeSections, skillGroups } from './data.js'
-import oliveBranch from './assets/images/palestinian-olive-branch.png'
 import aboutPortrait from './assets/images/about-portrait.jpg'
 
 const navGroups = {
@@ -15,7 +13,7 @@ const navGroups = {
     { label: 'Projects', href: '#projects', section: 'projects' },
   ],
   right: [
-    { label: 'Resume', href: '#experience', section: 'experience' },
+    { label: 'Experience', href: '#experience', section: 'experience' },
     { label: 'Contact', href: '#contact', section: 'contact' },
   ],
 }
@@ -29,13 +27,26 @@ function Navbar() {
     const heroActions = document.querySelector('#home .hero-actions')
     if (!heroActions) return undefined
 
+    const sectionIds = ['about', 'projects', 'skills', 'experience', 'contact']
+    const sections = sectionIds.map((id) => document.getElementById(id)).filter(Boolean)
+    const navbar = document.querySelector('.navbar')
+
     const updateNavigation = () => {
       const show = heroActions.getBoundingClientRect().bottom <= 0
       setScrolled(show)
       if (!show) {
         setActiveSection('')
         setMenuOpen(false)
+        return
       }
+
+      // Activate a section as its start reaches the bottom of the fixed navbar.
+      // Recompute on every scroll so hiding the navbar cannot erase observer state.
+      const activationLine = navbar?.getBoundingClientRect().height ?? 90
+      const currentSection = sections.reduce((current, section) => (
+        section.getBoundingClientRect().top <= activationLine + 1 ? section.id : current
+      ), '')
+      setActiveSection(currentSection)
     }
 
     updateNavigation()
@@ -45,24 +56,6 @@ function Navbar() {
       window.removeEventListener('scroll', updateNavigation)
       window.removeEventListener('resize', updateNavigation)
     }
-  }, [])
-
-  useEffect(() => {
-    const sectionIds = ['about', 'projects', 'skills', 'experience', 'contact']
-    const sectionObserver = new IntersectionObserver(
-      (entries) => {
-        const visibleSection = entries.find((entry) => entry.isIntersecting)
-        if (visibleSection) setActiveSection(visibleSection.target.id)
-      },
-      { rootMargin: '-20% 0px -65% 0px' },
-    )
-
-    sectionIds.forEach((id) => {
-      const section = document.getElementById(id)
-      if (section) sectionObserver.observe(section)
-    })
-
-    return () => sectionObserver.disconnect()
   }, [])
 
   const renderLink = ({ label, href, section }) => (
@@ -117,7 +110,6 @@ function Hero() {
   const [resumeOpen, setResumeOpen] = useState(false)
   return (
     <section className="hero" id="home">
-      <img className="hero-olive-branch" src={oliveBranch} alt="" aria-hidden="true" />
       <div className="hero-content">
         <p className="hero-welcome">
           <span className="hero-welcome-en">Welcome I’m</span>
@@ -127,10 +119,10 @@ function Hero() {
         <h1><ArabicNameWatermark /><span>Raneem</span><span>Abuhasan</span></h1>
         <p className="hero-role">Software Engineer</p>
         <div className="hero-actions">
-          <button className="hero-resume-link" type="button" onClick={() => setResumeOpen(true)}>
+          <button className="button button--primary" type="button" onClick={() => setResumeOpen(true)}>
             View Resume <Icon name="download" className="hero-work-icon" style={{ color: 'var(--v-olive-ink)' }} feedbackDuration={1.4} feedbackEase="gentle" />
           </button>
-          <a className="button button--primary" href="#projects">Explore my work <Icon name="arrow-down" className="hero-work-icon" style={{ color: 'var(--v-olive-ink)' }} feedbackDuration={0.7} feedbackEase="gentle" /></a>
+          <a className="hero-text-link" href="#projects">Explore my work <Icon name="arrow-down" className="hero-work-icon" style={{ color: 'var(--v-olive-ink)' }} feedbackDuration={0.7} feedbackEase="gentle" /></a>
         </div>
       </div>
       {resumeOpen && <ResumeModal onClose={() => setResumeOpen(false)} />}
@@ -153,6 +145,9 @@ function App() {
           headingInContent
         >
           <div className="about-grid">
+            <div className="about-heading section-heading section-heading--compact">
+              <div className="section-marker"><h2 className="section-label"><span className="section-title-accent">About Me</span></h2></div>
+            </div>
             <figure className="about-photo-block">
               <div className="about-photo-frame">
                 <img className="about-photo" src={aboutPortrait} alt="Raneem Abuhasan, smiling and holding an iced coffee" />
@@ -160,15 +155,15 @@ function App() {
               <figcaption className="about-photo-caption">Coffee in hand, always.</figcaption>
             </figure>
             <div className="about-story">
-            <div className="section-heading section-heading--compact">
-              <div className="section-marker"><h2 className="section-label">About Me</h2></div>
-            </div>
             <p className="about-lead">
-              I’m an undergraduate computer science student with a passion for full-stack product development — building software with purpose, personality, and a place in everyday life.
+              I’m a Computer Science student at <a className="about-university-link" href="https://www.umb.edu/" target="_blank" rel="noopener noreferrer">UMass Boston</a> with a passion for full-stack development, building AI-powered systems, and creating applications that are useful and meaningful in everyday life.
             </p>
             <div className="about-copy">
               <p>
-                From the Arabic welcome to the olive branch, I've woven little pieces of my heritage throughout this space. Small details that reflect my roots and the identity I proudly carry into every space I enter.
+                Recently, I founded and led a 7-women development team building <a className="about-university-link" href="#projects">Sync</a>, an AI-powered menstrual health app offering personalized nutrition and movement guidance tailored to each phase of the womens menstrual cycle. In January 2027, I’ll join <a className="about-university-link" href="https://www.mks.com/" target="_blank" rel="noopener noreferrer">MKS Inc.</a> as an Enterprise Systems Technology intern, exploring the systems that support complex business operations.
+              </p>
+              <p className="about-personal">
+                On a personal level, I enjoy content creation, discovering new coffee spots, and learning new sports like snowboarding, skiing and pickle ball.
               </p>
             </div>
             </div>
@@ -176,11 +171,24 @@ function App() {
         </Section>
 
 
-        <Section id="projects" sectionTitle="My Projects" className="projects-section">
+        <Section id="projects" className="projects-section" headingContent={
+          <div className="projects-heading">
+            <h2>My <span className="section-title-accent">Projects</span></h2>
+            <p>A collection of apps and web experiences I've built,
+              combining thoughtful design, innovative problem-solving,
+              and full-stack development.
+              </p>
+          </div>
+        }>
           <ProjectShowcase />
+          <div className="projects-github">
+            <a href="https://github.com/raneemabuhasan" target="_blank" rel="noopener noreferrer">
+              View all projects on GitHub <span aria-hidden="true">→</span>
+            </a>
+          </div>
         </Section>
 
-        <Section id="skills" sectionTitle="Technical Skills" className="skills-section" headingContent={<SkillsHeading />}>
+        <Section id="skills" sectionTitle="Technical Skills" className="skills-section">
           <div className="skills-grid">
             {skillGroups.map((group) => (
               <article className="skill-group" key={group.title}>
@@ -194,48 +202,46 @@ function App() {
 
         </Section>
 
-        <Section id="experience" sectionTitle="My Resume" className="experience-section">
+        <Section id="experience" sectionTitle={<>Experience & <span className="section-title-accent">Education</span></>} className="experience-section">
           <div className="resume-timeline">
-            {resumeSections.filter((section) => section.category !== 'Projects').map((section) => (
-              <section className="resume-group" key={section.category} aria-labelledby={`resume-${section.category.toLowerCase().replaceAll(' ', '-')}`}>
-                <h2 id={`resume-${section.category.toLowerCase().replaceAll(' ', '-')}`} className="resume-group-title">{section.category}</h2>
-                <div className="resume-list">
-                  {section.entries.map((item) => (
-                    <article className="timeline-item" key={`${item.organization}-${item.period}`}>
-                      <div className="timeline-summary">
-                        <h3>{item.role}</h3>
-                        <p className="timeline-period">{item.period}</p>
-
-
-                      </div>
-                      <div className="timeline-marker" aria-hidden="true">
-                        {item.logo && (
-                          <span className="timeline-logo" style={{ '--logo-inset': item.logoInset ?? '12%' }}>
-                            <img src={item.logo} alt="" />
-                          </span>
-                        )}
-                      </div>
-                      <div className="timeline-details">
-                        {item.description && (
-                          <p className="project-description">{item.description}</p>
-                        )}
-                        <h3>{item.organization}</h3>
-                        <p className="timeline-affiliation">{item.affiliation}</p>
-                        {item.details.length > 0 && (
-                          <ul>
-                            {item.details.map((detail) => <li key={detail}>{detail}</li>)}
-                          </ul>
-                        )}
-                      </div>
-                    </article>
-                  ))}
+            {resumeSections.filter((section) => section.category !== 'Projects').flatMap((section) => section.entries).map((item) => (
+              <article className="timeline-item" key={`${item.organization}-${item.period}`}>
+                <p className="timeline-period">{item.period}</p>
+                <div className="timeline-marker" aria-hidden="true">
+                  {item.logo && (
+                    <span className="timeline-logo">
+                      <img src={item.logo} alt="" />
+                    </span>
+                  )}
                 </div>
-              </section>
+                <div className="timeline-details">
+                  <h3>{item.role}</h3>
+                  <p className="timeline-organization">
+                    {item.organizationUrl ? <a href={item.organizationUrl} target="_blank" rel="noopener noreferrer">{item.organization}</a> : item.organization}
+                  </p>
+                  <p className="timeline-location">{item.affiliation}</p>
+                  {item.description && <p className="project-description">{item.description}</p>}
+                  {item.details.length > 0 && (
+                    <ul>
+                      {item.details.map((detail) => (
+                        <li key={typeof detail === 'string' ? detail : detail.label}>
+                          {typeof detail === 'string' ? detail : <><a href={detail.href} target="_blank" rel="noopener noreferrer">{detail.label}</a>{detail.suffix}</>}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </article>
             ))}
           </div>
         </Section>
 
-        <Section id="contact" sectionTitle="Contact" className="contact-section">
+        <Section id="contact" className="contact-section" headingContent={
+          <div className="contact-heading">
+            <p className="contact-eyebrow">Get in touch</p>
+            <h2>Let's <span>Connect</span></h2>
+          </div>
+        }>
 
           <div className="contact-grid">
             <dl className="contact-details">
@@ -251,7 +257,7 @@ function App() {
               <div className="contact-detail">
                 <dt className="sr-only">Location</dt>
                 <dd>
-                  <a className="contact-email-label contact-location-link" href="https://www.google.com/maps/search/?api=1&query=Waltham%2C%20MA" target="_blank" rel="noreferrer">
+                  <a className="contact-email-label contact-location-link" href="https://www.google.com/maps/search/?api=1&query=Boston%2C%20MA" target="_blank" rel="noreferrer">
                     <Icon name="map-pin" className="contact-icon" feedbackDuration={1.4} feedbackEase="gentle" />
                     <span>Boston, MA</span>
                   </a>
@@ -259,8 +265,8 @@ function App() {
               </div>
             </dl>
             <div className="contact-aside">
-              <SocialLink href="https://github.com/raneemabuhasan"><Icon name="github" className="contact-icon" feedbackDuration={0.7} feedbackEase="gentle" />GitHub</SocialLink>
               <SocialLink href="https://www.linkedin.com/in/raneem-abuhasan246/"><Icon name="linkedin" className="contact-icon" feedbackDuration={1.4} feedbackEase="gentle" />LinkedIn</SocialLink>
+              <SocialLink href="https://github.com/raneemabuhasan"><Icon name="github" className="contact-icon" feedbackDuration={0.7} feedbackEase="gentle" />GitHub</SocialLink>
             </div>
           </div>
         </Section>

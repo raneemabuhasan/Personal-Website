@@ -17,7 +17,7 @@
   overflow: visible;
 }
 
-.arabic-name-watermark__pen { stroke-dasharray: 1; stroke-dashoffset: 0; }
+.arabic-name-watermark__pen { stroke-dasharray: var(--pen-dashes, none); stroke-dashoffset: 0; }
 
 .nav-identity { position: relative; isolation: isolate; }
 .nav-identity > span, .nav-identity > small { position: relative; z-index: 1; }
@@ -44,6 +44,7 @@
 }
 
 @keyframes arabic-name-pen {
-  from { stroke-dashoffset: 1; }
-  to { stroke-dashoffset: 0; }
+  from { stroke-dashoffset: var(--pen-offset, 0); opacity: 0; }
+  .01% { opacity: 1; }
+  to { stroke-dashoffset: 0; opacity: 1; }
 }

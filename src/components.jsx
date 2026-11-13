@@ -19,7 +19,7 @@ export function Section({ id, sectionTitle, title, headingMedia = null, children
   )
   return (
     <section id={id} className={`section ${className}`}>
-      <AnimatedContent distance={16} duration={0.45} ease="power3.out" stagger={0} threshold={0.1}>
+      <AnimatedContent distance={24} duration={0.65} ease="power3.out" stagger={0.1} threshold={0.1}>
         {content}
       </AnimatedContent>
     </section>

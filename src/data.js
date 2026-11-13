@@ -14,7 +14,7 @@ export const projects = [
     details: 'Founded Sync and led a seven-member team to build an iOS app with SwiftUI and Firebase, featuring symptom tracking and phase-specific nutrition and movement suggestions. Led development of a Gemini-powered companion through Firebase AI Logic that uses logged cycle and symptom data, with guardrails against unsupported medical advice and fabricated history. Won the People’s Choice Award at the UMass Boston AI Symposium with 282 votes.',
     tags: ['SwiftUI', 'Firebase', 'Gemini', 'Firebase AI Logic'],
     type: 'Founder & Team Lead',
-    links: { demo: null, code: null },
+    links: { demo: null, code: 'https://github.com/raneemabuhasan/Hackathon2026', award: '/sync-award.jpg', slides: '/sync-presentation.mp4' },
   },
   {
     id: 'sip-and-swoon',
@@ -25,7 +25,7 @@ export const projects = [
     details: 'Built with React, Express, PostgreSQL, and Supabase Auth, with location-based café results powered by Google Places. Designed an eight-table database and 20 API endpoints for cafés, drinks, reviews, and user preferences, with caching to reduce repeated requests.',
     tags: ['React', 'Express', 'PostgreSQL', 'Supabase Auth'],
     type: 'Full-stack application',
-    links: { demo: null, code: null },
+    links: { demo: null, code: 'https://github.com/raneemabuhasan/SipSwoonRate_project' },
   },
   {
     id: 'green-thumb',
@@ -36,7 +36,7 @@ export const projects = [
     details: 'Led a team of six engineers and designers to build a responsive e-commerce platform around client requirements. Developed interactive interfaces with HTML, CSS, and JavaScript, including a randomized plant discovery feature.',
     tags: ['HTML', 'CSS', 'JavaScript'],
     type: 'Team project · E-commerce',
-    links: { demo: null, code: null },
+    links: { demo: null, code: 'https://github.com/A3GT/Green-Thumb' },
   },
 ]
 
@@ -78,14 +78,12 @@ export const resumeSections = [
         period: 'January 2025 — May 2025',
         role: 'Undergraduate Researcher',
         organization: 'Wind Energy Systems Lab',
+        organizationUrl: 'https://blogs.umb.edu/windenergysystemslab/',
         affiliation: 'Boston, MA',
         logo: weslLogo,
         logoInset: '13%',
-        details: [
-          'Collected and analyzed water-depth and turbine-location data across 14+ offshore wind farms, using Python, NumPy, SciPy, and Matplotlib.',
-          'Developed water-depth maps and visualizations to compare turbine locations, ocean depth, and offshore site conditions',
-          'Modeled offshore wind-farm layouts using PyWake and TopFarm to evaluate wake effects and improve annaul energy production (AEP).',
-        ],
+        description: 'Analyzed ocean-depth and turbine-location data from 14+ offshore wind farms using Python, NumPy, and SciPy, creating maps and visualizations with Matplotlib to compare site conditions. Modeled wind-farm layouts with PyWake and TopFarm to evaluate wake effects and identify opportunities to improve annual energy production (AEP).',
+        details: [],
       },
     ],
   },
@@ -99,7 +97,14 @@ export const resumeSections = [
         affiliation: 'Boston, MA',
         logo: umassBostonLogo,
         logoInset: '12%',
-        details: ['GPA: 3.6 / 4.0'],
+        details: [
+          'Dean’s List — every semester since Fall 2023',
+          {
+            label: 'Women Beacons in the Workplace',
+            href: 'https://www.alumni.umb.edu/s/1355/22/interior.aspx?sid=1355&gid=3&pgid=11822',
+            suffix: ' — Mentee',
+          },
+        ],
       },
       {
         period: '2018 — 2022',
